@@ -35,5 +35,6 @@
 
 - (IBAction)doSwitch:(UISegmentedControl*)sender;
 - (void)preSetup:(NSArray*)uPackages;
+- (IBAction)doBackup:(id)sender;
 
 @end

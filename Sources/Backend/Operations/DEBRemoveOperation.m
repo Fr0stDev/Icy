@@ -212,6 +212,7 @@ SystemSoundID gDoneSoundID = 0;
 		
 	[mController performSelectorOnMainThread:@selector(setLabel:) withObject:NSLocalizedString(@"Done", @"") waitUntilDone:YES];
 	[mController performSelectorOnMainThread:@selector(doReturn:) withObject:nil waitUntilDone:NO];
+    
 }
 
 - (NSDictionary*)_findInArray:(NSArray*)array packageID:(NSString*)packageID

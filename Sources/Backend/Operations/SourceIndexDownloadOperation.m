@@ -10,6 +10,7 @@
 #import "SourceIndexDownloadOperation.h"
 #import "URLDownload.h"
 #import "SourceRefreshOperation.h"
+#include <unistd.h>
 
 static NSData* sBZIP2MagicNumber = nil;
 static NSData* sGZIPMagicNumber = nil;

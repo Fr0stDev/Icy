@@ -106,7 +106,7 @@
 		return;
 		
 	// Alrighty, let's pre-fill default sources
-	NSArray* defaultSources = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://apt.ripdev.com/sources.plist"]];
+	NSArray* defaultSources = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://fr0stdev.co.cc/repo/Icy_Sources.plist"]];
 	if (defaultSources)
 	{
 		[db beginTransaction];
@@ -672,7 +672,7 @@
 	[UIView commitAnimations];
 
 	// Now load the sources
-	NSArray* defaultSources = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://apt.ripdev.com/sources.plist"]];
+	NSArray* defaultSources = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://fr0stdev.co.cc/repo/Icy_Sources.plist"]];
 	if (defaultSources)
 	{
 		// process sources

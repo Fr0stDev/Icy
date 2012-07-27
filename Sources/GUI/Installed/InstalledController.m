@@ -98,6 +98,14 @@ static UIImage* gPackageImage = nil;
 		self.navigationItem.rightBarButtonItem.enabled = [updatedPackages count];
 }
 
+- (IBAction)doBackup:(id)sender {
+	
+	system("dpkg --get-selections > IcyBackup.txt");//backups itself in /private/var/root
+	
+	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Backup" message:@"Icy 2.1 has just created a backup of your packages. It can be found at /private/var/root/IcyBackup.txt." delegate:self cancelButtonTitle:@"Thanks!" otherButtonTitles:nil] autorelease];
+    [alert show];//alert to acknowledge backup
+}
+
 - (void)preSetup:(NSArray*)uPackages
 {
 	if (!updatedPackages)
@@ -237,7 +245,8 @@ static UIImage* gPackageImage = nil;
 	NSDictionary* pack = (showInstalledPackages ? [installedPackages objectAtIndex:indexPath.row] : [updatedPackages objectAtIndex:indexPath.row]);
 	
 	infoController.package = pack;
-	[self.navigationController pushViewController:infoController animated:YES];
+	
+    //[self.navigationController pushViewController:infoController animated:YES]; //THIS IS BUGGY, REMOVED TEMPORARILY
 }
 
 // Override to support conditional editing of the table view.

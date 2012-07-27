@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <curl/curl.h>
-
+#import "curl.h"
+#import "easy.h"
 @interface URLDownload : NSObject {
 	CURL*				curl;
 	NSFileHandle*		downloadFile;

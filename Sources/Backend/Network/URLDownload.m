@@ -12,9 +12,10 @@
 #import "URLDownload.h"
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
-
 #ifndef INSTALLER_APP
-    #import <CFNetwork/CFProxySupport.h>
+#import <CFNetwork/CFProxySupport.h>
+//#import "curl.h"
+//#import "easy.h"
 #endif // INSTALLER_APP
 
 #define kURLDownloadTimeout		600			// 10 minutes oughtta be enough for everybody...™
@@ -56,7 +57,7 @@ static char			gMachineName[128] = { 0 };
 			
 			if ([delegate respondsToSelector:@selector(urlDownloadDidBegin:)])
 				[delegate urlDownloadDidBegin:self];
-				
+			
 			if ([delegate respondsToSelector:@selector(urlDownload:didCreateDestination:)])
 				[delegate urlDownload:self didCreateDestination:self.downloadFilePath];
 			
@@ -75,37 +76,37 @@ static char			gMachineName[128] = { 0 };
 		curl = curl_easy_init();
 		
 		/*
-		if (resumeable)
-		{
-			// find whether this file was attempted download before
-			ATIncompleteDownload* dl = [[ATPackageManager sharedPackageManager].incompleteDownloads downloadWithLocation:[request URL]];
-			if (dl)
-			{
-				self.downloadFilePath = [__DOWNLOADS_PATH__ stringByAppendingPathComponent:dl.path];
-			}
-			else
-			{
-				NSString* tempFileName = [[request URL] tempDownloadFileName];
-				
-				self.downloadFilePath = [__DOWNLOADS_PATH__ stringByAppendingPathComponent:tempFileName];
-				
-				dl = [[ATIncompleteDownload alloc] init];
-				
-				dl.url = [request URL];
-				dl.path = tempFileName;
-				dl.date = [NSDate date];
-				
-				[dl commit];
-
-				[dl release];
-			}
-		}
-		else */
-			self.downloadFilePath = [kIcyCachePath stringByAppendingPathComponent:[[self.url absoluteString] MD5Hash]];
+		 if (resumeable)
+		 {
+		 // find whether this file was attempted download before
+		 ATIncompleteDownload* dl = [[ATPackageManager sharedPackageManager].incompleteDownloads downloadWithLocation:[request URL]];
+		 if (dl)
+		 {
+		 self.downloadFilePath = [__DOWNLOADS_PATH__ stringByAppendingPathComponent:dl.path];
+		 }
+		 else
+		 {
+		 NSString* tempFileName = [[request URL] tempDownloadFileName];
+		 
+		 self.downloadFilePath = [__DOWNLOADS_PATH__ stringByAppendingPathComponent:tempFileName];
+		 
+		 dl = [[ATIncompleteDownload alloc] init];
+		 
+		 dl.url = [request URL];
+		 dl.path = tempFileName;
+		 dl.date = [NSDate date];
+		 
+		 [dl commit];
+		 
+		 [dl release];
+		 }
+		 }
+		 else */
+		self.downloadFilePath = [kIcyCachePath stringByAppendingPathComponent:[[self.url absoluteString] MD5Hash]];
 		
 		if ([delegate respondsToSelector:@selector(downloadDidBegin:)])
 			[delegate urlDownloadDidBegin:self];
-
+		
 		if([[NSFileManager defaultManager] fileExistsAtPath:self.downloadFilePath] || [[NSFileManager defaultManager] createFileAtPath:self.downloadFilePath contents:nil attributes:nil])
 		{
 			self.downloadFile = [NSFileHandle fileHandleForWritingAtPath:self.downloadFilePath];
@@ -115,7 +116,7 @@ static char			gMachineName[128] = { 0 };
 			if ([delegate respondsToSelector:@selector(download:didCreateDestination:)])
 				[delegate urlDownload:self didCreateDestination:self.downloadFilePath];
 		}
-
+		
 		if (curl)
 		{
 			curl_easy_setopt(curl, CURLOPT_URL, [[self.url absoluteString] UTF8String]);
@@ -146,17 +147,17 @@ static char			gMachineName[128] = { 0 };
 				CFRelease(proxySettings);
 			}
 #endif
-
+			
 			/*if ([[NSFileManager defaultManager] fileExistsAtPath:self.downloadFilePath])
-			{
-				unsigned long long fs = [[[NSFileManager defaultManager] fileAttributesAtPath:self.downloadFilePath traverseLink:NO] fileSize];
-				if (fs > 0)
-				{
-					curl_off_t offset = fs;
-					
-					curl_easy_setopt(curl, CURLOPT_RESUME_FROM_LARGE, offset);
-				}
-			}*/
+			 {
+			 unsigned long long fs = [[[NSFileManager defaultManager] fileAttributesAtPath:self.downloadFilePath traverseLink:NO] fileSize];
+			 if (fs > 0)
+			 {
+			 curl_off_t offset = fs;
+			 
+			 curl_easy_setopt(curl, CURLOPT_RESUME_FROM_LARGE, offset);
+			 }
+			 }*/
 			//[self performSelector:@selector(start) withObject:nil afterDelay:0.];
 		}
 		
@@ -169,6 +170,7 @@ static char			gMachineName[128] = { 0 };
 {
 	[self retain];			// in case someone releases us in response to an error
 	CURLcode res = CURLE_FAILED_INIT;
+
 	
 	if (curl)
     {
@@ -189,16 +191,16 @@ static char			gMachineName[128] = { 0 };
 			headers = curl_slist_append(headers, [[NSString stringWithFormat:@"X-Machine: %s", gMachineName] UTF8String]);
 		
 		curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-
+		
 		if (self.actAsInsect)
 			curl_easy_setopt(curl, CURLOPT_USERAGENT, [@"Cydia/0.9 CFNetwork/342.1 Darwin/9.4.1" UTF8String]);
 		else
 			curl_easy_setopt(curl, CURLOPT_USERAGENT, [@"Telesphoreo APT-HTTP/1.0.534" UTF8String]);
-
+		
 		res = curl_easy_perform(curl);
 		curl_slist_free_all(headers);
-   }
-
+	}
+	
 	if (res != CURLE_OK && res != CURLE_WRITE_ERROR)
 	{
 		NSError* err = nil;
@@ -209,7 +211,7 @@ static char			gMachineName[128] = { 0 };
 		if (errStr)
 		{
 			NSString* fullError = [NSString stringWithFormat:@"%@ (%@)", [NSString stringWithUTF8String:errStr], [self.url host]];
-		
+			
 			userInfo = [NSDictionary dictionaryWithObjectsAndKeys:fullError, NSLocalizedDescriptionKey, nil];
 		}
 		
@@ -222,11 +224,11 @@ static char			gMachineName[128] = { 0 };
 		res == CURLE_WRITE_ERROR)		// write error = manual abort, no need to keep the file around
 	{
 		// remove incomplete download (as it's now complete)
-/*		ATIncompleteDownload* dl = [[ATPackageManager sharedPackageManager].incompleteDownloads downloadWithLocation:self.url];
-		if (dl)
-		{
-			[dl remove];
-		} */
+		/*		ATIncompleteDownload* dl = [[ATPackageManager sharedPackageManager].incompleteDownloads downloadWithLocation:self.url];
+		 if (dl)
+		 {
+		 [dl remove];
+		 } */
 		
 		[self connectionDidFinishLoading:nil];
 	}
@@ -261,7 +263,7 @@ static char			gMachineName[128] = { 0 };
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)newBytes {
 	[self.downloadFile writeData:newBytes];
-
+	
 	if ([self.delegate respondsToSelector:@selector(urlDownload:didReceiveDataOfLength:)])
 		[self.delegate urlDownload:self didReceiveDataOfLength:[newBytes length]];
 }
@@ -288,11 +290,11 @@ static char			gMachineName[128] = { 0 };
 	[self.downloadFile closeFile];
 	self.downloadFile = nil;
 	
-	//NSLog(@"[URLd] Error: %@ -> %@", self.url, failReason);
+	NSLog(@"[URLd] Error: %@ -> %@", self.url, failReason);
 	
 	if ([self.delegate respondsToSelector:@selector(urlDownload:didFailWithError:)])
 		[self.delegate urlDownload:self didFailWithError:failReason];
-
+	
 	if (self.downloadFilePath)
 		[[NSFileManager defaultManager] removeItemAtPath:self.downloadFilePath error:nil];
 	
@@ -303,10 +305,12 @@ static char			gMachineName[128] = { 0 };
 {
 	NSDate* date = [NSDate dateWithNaturalLanguageString:lastModifiedString];
 	
+	
+	
 	if (date)
 	{
 		NSDate* cachedFileDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:self.downloadFilePath error:nil] fileModificationDate];
-				
+		
 		if (cachedFileDate)
 		{
 			if ([date isEqualToDate:cachedFileDate])
@@ -334,17 +338,17 @@ static char			gMachineName[128] = { 0 };
 static size_t _curl_write(void *buffer, size_t size, size_t nmemb, void *userp)
 {
 	URLDownload* dl = (URLDownload*)userp;
-
+	
 	if (dl.cancel)
 		return -1;
-
+	
 	NSData* newData = [[NSData alloc] initWithBytesNoCopy:buffer length:(size*nmemb) freeWhenDone:NO];
 	[dl connection:nil didReceiveData:newData];
 	[newData release];
 	
 	if (dl.cancel)		// we check again because our handler may have set cancel in the callback
 		return -1;
-
+	
 	return size*nmemb;
 }
 
@@ -352,6 +356,7 @@ static size_t _curl_header(void *buffer, size_t size, size_t nmemb, void *userp)
 {
 	URLDownload* dl = (URLDownload*)userp;
 	NSString* header = [NSString stringWithCString:buffer length:size*nmemb];
+	
 	
 	if ([header hasPrefix:@"HTTP/"])
 	{

@@ -55,6 +55,7 @@
 - (IBAction)doReturn:(id)sender;
 - (IBAction)doFlip:(id)sender;
 - (IBAction)doCancel:(id)sender;
+- (IBAction)doReSpring:(id)sender;
 
 - (void)advancePhase;
 

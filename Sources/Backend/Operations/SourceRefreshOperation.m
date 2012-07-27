@@ -250,10 +250,10 @@ static void SourceRefreshOperation_ObserverCallBack(CFRunLoopObserverRef observe
 		if (![p objectForKey:@"package"])
 			continue;
 			
-		/* if ([p objectForKey:@"tag"] &&
+		 if ([p objectForKey:@"tag"] &&
 			[[p objectForKey:@"tag"] rangeOfString:@"cydia::commercial"].length)
 				continue;
-		*/
+		
 		
 		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		

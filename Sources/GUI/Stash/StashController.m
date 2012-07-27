@@ -9,6 +9,7 @@
 #import <sys/stat.h>
 #import "StashController.h"
 #import "IcyAppDelegate.h"
+#include <unistd.h>
 
 static void cmd_system_chroot(const char* newRoot, char * argv[]);
 static void sig_chld_ignore(int signal);
@@ -139,7 +140,7 @@ static void sig_chld_waitpid(int signal);
 	strcat(stashDir, [[dir lastPathComponent] UTF8String]);
 	
 	// make random ending for the stash dir
-	strcat(stashDir, [[NSString stringWithFormat:@"-%@", [[[[NSDate date] description] MD5Hash] substringToIndex:5]] UTF8String]);
+	//strcat(stashDir, [[NSString stringWithFormat:@"-%@", [[[[NSDate date] description] MD5Hash] substringToIndex:5]] UTF8String]);
 	
 	printf("Stashing %s -> %s\n", [dir fileSystemRepresentation], stashDir); fflush(stdout);
 		

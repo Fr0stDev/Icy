@@ -10,7 +10,7 @@
 #import "MobileInstallationBuilder.h"
 
 #if defined(__i386__)
-	#define kIcyMobileInstallationCache @"/Users/slava/Desktop/com.apple.mobile.installation.plist"
+	#define kIcyMobileInstallationCache @"/Users/sosumeh/Desktop/com.apple.mobile.installation.plist"
 #else
 	#define kIcyMobileInstallationCache @"/var/mobile/Library/Caches/com.apple.mobile.installation.plist"
 #endif

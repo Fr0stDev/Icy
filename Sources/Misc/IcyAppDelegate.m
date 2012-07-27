@@ -76,7 +76,10 @@ static NSString* gStashableDirectories[] = {
 		int i;
 		NSMutableArray* toStash = nil;
 		// check whether we need stashing
-
+		
+		NSFileManager* stashManager = [NSFileManager defaultManager];
+		if (![stashManager fileExistsAtPath:@"/var/stash"]) {
+			
 		for (i=0; gStashableDirectories[i]; i++)
 		{
 			struct stat st;
@@ -110,6 +113,7 @@ static NSString* gStashableDirectories[] = {
 			[stash stashDirectories:toStash];
 		
 			return;
+			}
 		}
 	}
 

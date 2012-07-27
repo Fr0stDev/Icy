@@ -73,6 +73,12 @@ extern UIImage* _UIImageWithName(NSString* name) WEAK_IMPORT_ATTRIBUTE;
 	[currentOperation cancel];
 }
 
+//Respring magic.
+- (IBAction)doReSpring:(id)sender {
+	system("killall SpringBoard");	
+	
+}
+
 - (IBAction)doReturn:(id)sender
 {
 	[activityIndicator stopAnimating];

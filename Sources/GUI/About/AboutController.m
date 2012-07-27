@@ -221,7 +221,7 @@
 {
 	NSString* subject = [NSString stringWithFormat:@"Icy %@ for %@ %@ Feedback", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"], [UIDevice currentDevice].model, [UIDevice currentDevice].systemVersion];
 	
-	NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"mailto:support@ripdev.com?subject=%@", [subject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+	NSURL* url = [NSURL URLWithString:[NSString stringWithFormat:@"mailto:weamdev@gmail.com?subject=%@", [subject stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
 	
 	[[UIApplication sharedApplication] openURL:url];
 	
@@ -229,9 +229,15 @@
 
 - (IBAction)doOpenWWW:(id)sender
 {
-	NSURL* url = [NSURL URLWithString:@"http://ripdev.com"];
+	//UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Info" message:@"Icy 2.1 has been made possible by the devs at WeAmDev" delegate:self cancelButtonTitle:@"Back To Icy!" otherButtonTitles:nil] autorelease];
+    // optional - add more buttons:
+	// [alert addButtonWithTitle:@"Yes"];
+    //[alert show];
+	//This makes the info button load a page
+	NSURL* url = [NSURL URLWithString:@"http://weamdev.t15.org"];
 	
 	[[UIApplication sharedApplication] openURL:url];
+	
 }
 
 - (void)doAutoRefresh:(UISwitch*)sender

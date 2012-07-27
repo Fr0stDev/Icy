@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
 #import "SchemaBuilder.h"
+#include <unistd.h>
+#include <stdio.h>
+
 
 int main(int argc, char *argv[]) {
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
