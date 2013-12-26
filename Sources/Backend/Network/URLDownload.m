@@ -177,7 +177,7 @@ static char			gMachineName[128] = { 0 };
 		// Add saurik's extended http fields
 		struct curl_slist *headers = NULL;
 		
-		headers = curl_slist_append(headers, [[NSString stringWithFormat:@"X-Unique-ID: %@", [UIDevice currentDevice].uniqueIdentifier] UTF8String]);
+		headers = curl_slist_append(headers, [NSString stringWithFormat:@"X-Unique-ID: %@", @"UDID"]);
 		headers = curl_slist_append(headers, [[NSString stringWithFormat:@"X-Firmware: %@", [UIDevice currentDevice].systemVersion] UTF8String]);
 		
 		// machine name
@@ -356,6 +356,7 @@ static size_t _curl_header(void *buffer, size_t size, size_t nmemb, void *userp)
 {
 	URLDownload* dl = (URLDownload*)userp;
 	NSString* header = [NSString stringWithCString:buffer length:size*nmemb];
+    
 	
 	
 	if ([header hasPrefix:@"HTTP/"])

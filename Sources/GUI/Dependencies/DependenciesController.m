@@ -114,17 +114,18 @@ static NSInteger Dependencies_ArraySort(NSDictionary* d1, NSDictionary* d2, void
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-		cell.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+		cell.textLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
 		if (!gPackageImage)
 			gPackageImage = [[UIImage imageWithData:[NSData dataWithContentsOfMappedFile:[[NSBundle mainBundle] pathForResource:@"Package" ofType:@"png"]]] retain];
-		cell.image = gPackageImage;
+		cell.imageView.image = gPackageImage;
 		
 		// prepare the subviews
 		UILabel* categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(52, 24, 265, 24)];
 		categoryLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
 		categoryLabel.textColor = [UIColor darkGrayColor];
-		categoryLabel.textAlignment = UITextAlignmentLeft;
+		categoryLabel.textAlignment = NSTextAlignmentLeft;
 		categoryLabel.backgroundColor = [UIColor clearColor];
 		
 		[cell.contentView addSubview:categoryLabel];
@@ -141,9 +142,9 @@ static NSInteger Dependencies_ArraySort(NSDictionary* d1, NSDictionary* d2, void
 		cat.text = [package objectForKey:@"section"];
 	
 	if ([package objectForKey:@"version"])
-		cell.text = [NSString stringWithFormat:@"%@ (%@)", [package objectForKey:@"name"], [package objectForKey:@"version"]];
+		cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [package objectForKey:@"name"], [package objectForKey:@"version"]];
 	else
-		cell.text = [package objectForKey:@"name"];
+		cell.textLabel.text = [package objectForKey:@"name"];
 	cell.accessoryType = [package objectForKey:@"installed"] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
 	cell.selectionStyle = UITableViewCellSelectionStyleNone;
 	

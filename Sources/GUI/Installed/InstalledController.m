@@ -186,26 +186,28 @@ static UIImage* gPackageImage = nil;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-		cell.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell.textLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
 		
 		if (!gPackageImage)
 			gPackageImage = [[UIImage imageWithData:[NSData dataWithContentsOfMappedFile:[[NSBundle mainBundle] pathForResource:@"Package" ofType:@"png"]]] retain];
-		cell.image = gPackageImage;
+		cell.imageView.image = gPackageImage;
 		
 		if (cellTextColor)
-			cell.textColor = cellTextColor;
+			cell.textLabel.textColor = cellTextColor;
 
 		// prepare the subviews
 		UILabel* categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(52, 24, 265, 24)];
 		categoryLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
 		categoryLabel.textColor = [UIColor darkGrayColor];
-		categoryLabel.textAlignment = UITextAlignmentLeft;
+		categoryLabel.textColor = NSTextAlignmentLeft;
 		categoryLabel.backgroundColor = [UIColor clearColor];
 		
 		[cell.contentView addSubview:categoryLabel];
 		[categoryLabel release];
     }
+    
+    
 	
 	NSDictionary* pack = (showInstalledPackages ? [installedPackages objectAtIndex:indexPath.row] : [updatedPackages objectAtIndex:indexPath.row]);
     
@@ -214,7 +216,7 @@ static UIImage* gPackageImage = nil;
 	if (!name)
 		name = [pack objectForKey:@"package"];
 	
-	cell.text = [NSString stringWithFormat:@"%@ (%@)", name, [pack objectForKey:@"version"]];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", name, [pack objectForKey:@"version"]];
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
 	UILabel* cat = nil;
@@ -224,6 +226,12 @@ static UIImage* gPackageImage = nil;
 		category = NSLocalizedString(@"Uncategorized", @"");
 	else
 	{
+        
+        if ([category isEqualToString:@"System"]) {
+            [installedPackages removeObjectAtIndex:indexPath.row];
+            [tableView reloadData];
+        }
+        
 		category = [category stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		category = [[NSBundle mainBundle] localizedStringForKey:category value:category table:@"Categories"];
 	}
@@ -246,7 +254,7 @@ static UIImage* gPackageImage = nil;
 	
 	infoController.package = pack;
 	
-    //[self.navigationController pushViewController:infoController animated:YES]; //THIS IS BUGGY, REMOVED TEMPORARILY
+    [self.navigationController pushViewController:infoController animated:YES]; //THIS IS BUGGY, REMOVED TEMPORARILY
 }
 
 // Override to support conditional editing of the table view.
@@ -364,8 +372,11 @@ static UIImage* gPackageImage = nil;
 
 - (void)_rebuildInstalledPackages
 {
-	NSDate* fileDate = [[[NSFileManager defaultManager] fileAttributesAtPath:kIcyDPKGStatusDatabasePath traverseLink:YES] fileModificationDate];
-	
+	//NSDate* fileDate = [[[NSFileManager defaultManager] fileAttributesAtPath:kIcyDPKGStatusDatabasePath traverseLink:YES] fileModificationDate];
+    
+    NSDate* fileDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:kIcyDPKGStatusDatabasePath error:nil] fileModificationDate];
+
+    
 	if (!statusFileLastUpdate ||
 		![fileDate isEqualToDate:statusFileLastUpdate])
 	{
@@ -374,6 +385,7 @@ static UIImage* gPackageImage = nil;
 		
 		DPKGParser* parser = [[DPKGParser alloc] init];
 		NSArray* packs = [parser parseDatabaseAtPath:kIcyDPKGStatusDatabasePath];
+        
 		[parser release];
 		
 		[installedPackages removeAllObjects];
@@ -381,6 +393,10 @@ static UIImage* gPackageImage = nil;
 		
 		[installedPackages sortUsingFunction:_InstalledPackagesSortFunction context:nil];
 		
+        
+        
+       
+        
 		if (showInstalledPackages)
 			[self.tableView reloadData];
 	}

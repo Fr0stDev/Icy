@@ -48,7 +48,7 @@ static void sig_chld_waitpid(int signal);
 		self.view.backgroundColor = [tintColor colorRepresentation];
 	}
 	else
-		self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+		self.view.backgroundColor = [UIColor darkGrayColor];
 	// ~Theme support
 	
 	[ICY_APP.window addSubview:self.view];

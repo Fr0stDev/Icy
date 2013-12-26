@@ -125,20 +125,20 @@ static UIImage* gPackageImage = nil;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-		cell.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell.textLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		if (cellTextColor)
-			cell.textColor = cellTextColor;
+			cell.textLabel.textColor = cellTextColor;
 		if (!gPackageImage)
 			gPackageImage = [[UIImage imageWithData:[NSData dataWithContentsOfMappedFile:[[NSBundle mainBundle] pathForResource:@"Package" ofType:@"png"]]] retain];
-		cell.image = gPackageImage;
+		cell.imageView.image = gPackageImage;
      }
     
     // Set up the cell...
 	NSDictionary* package = [packages objectAtIndex:indexPath.row];
 	
-	cell.text = [NSString stringWithFormat:@"%@ (%@)", [package objectForKey:@"name"], [package objectForKey:@"version"]];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [package objectForKey:@"name"], [package objectForKey:@"version"]];
 
     return cell;
 }

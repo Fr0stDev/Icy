@@ -53,17 +53,17 @@ static NSString* gStashableDirectories[] = {
 		if (sbStyle)
 		{
 			if ([sbStyle isEqualToString:@"black"])
-				[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
+				[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 			else if ([sbStyle isEqualToString:@"white"])
-				[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+				[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 			else if ([sbStyle isEqualToString:@"transparent"])
-				[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+				[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 			else
-				[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
+				[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 		}
 	}
 	else
-		[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
+		[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 		
 }
 
@@ -117,12 +117,15 @@ static NSString* gStashableDirectories[] = {
 		}
 	}
 
+    sourcesController = [[SourcesController alloc] init];
+    
     // Add the tab bar controller's current view as a subview of the window
     [window addSubview:tabBarController.view];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updatedPackagesUpdated:) name:kIcyUpdatedPackagesUpdatedNotification object:nil];
 	
-	[sourcesController performSelector:@selector(checkSources:) withObject:nil afterDelay:.5];
+	//[sourcesController performSelector:@selector(checkSources:) withObject:nil afterDelay:.5];
+    [sourcesController checkSources:nil];
 	
 	// refresh update counts
 	UpdatesSearchOperation* us = [[UpdatesSearchOperation alloc] init];
@@ -139,9 +142,12 @@ static NSString* gStashableDirectories[] = {
 			
 			if (!lastRefresh || (abs([lastRefresh timeIntervalSinceNow]) >= kIcyMinimumRefreshInterval))
 			{
-				[sourcesController performSelector:@selector(doRefresh:) withObject:nil afterDelay:1.5];
+				//[sourcesController performSelector:@selector(doRefresh:) withObject:nil afterDelay:1.5];
+                [sourcesController doRefresh:nil];
 			}
 		}
+        
+        //[sourcesController release];
 	}
 }
 

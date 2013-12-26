@@ -103,8 +103,7 @@
     if(res)
     {
         *errorInfo = @"Unknown error";
-
-        NSString* string = [NSString stringWithContentsOfFile:@"/tmp/dpkg.out"];
+        NSString* string = [NSString stringWithContentsOfFile:@"/tmp/dpkg.out" encoding:NSUTF8StringEncoding error:nil];
         if(string)
             *errorInfo = string;
     }

@@ -36,9 +36,10 @@
 	if (self.frame.size.height > 80)
 		imageName = @"GradientBackgroundLarge";
 		
-	UIImage* gradient = [UIImage imageWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:imageName ofType:@"png"]]];
+	//UIImage* gradient = [UIImage imageWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:imageName ofType:@"png"]]];
 
-	self.contentView.backgroundColor = [UIColor colorWithPatternImage:gradient];
+	//self.contentView.backgroundColor = [UIColor colorWithPatternImage:gradient];
+    self.contentView.backgroundColor = [UIColor blackColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

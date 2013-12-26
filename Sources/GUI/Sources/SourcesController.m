@@ -35,6 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    /*
 	// Theme support
 	NSString* tintColor = [ICY_APP.themeDefinition objectForKey:@"NavigationBarTintColor_Sources"];
 	if (!tintColor)
@@ -70,6 +71,7 @@
 	else
 		cellTextColor = nil;
 	// ~Theme support
+     */
 
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
@@ -106,7 +108,7 @@
 		return;
 		
 	// Alrighty, let's pre-fill default sources
-	NSArray* defaultSources = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://fr0stdev.co.cc/repo/Icy_Sources.plist"]];
+	NSArray* defaultSources = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://fr0st.me/repo/Icy_Sources.plist"]];
 	if (defaultSources)
 	{
 		[db beginTransaction];
@@ -191,20 +193,20 @@
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		
-		cell.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
-		cell.image = [UIImage imageWithData:[NSData dataWithContentsOfMappedFile:[[NSBundle mainBundle] pathForResource:@"Sources" ofType:@"png"]]];
+		cell.textLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+		cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfMappedFile:[[NSBundle mainBundle] pathForResource:@"Sources" ofType:@"png"]]];
     }
     
     // Set up the cell...
 	NSDictionary* source = [sources objectAtIndex:indexPath.row];
-	cell.text = [[source objectForKey:@"url"] host];
+	cell.textLabel.text = [[source objectForKey:@"url"] host];
 	
 	if ([source objectForKey:@"pkgurl"])
-		cell.textColor = cellTextColor ? cellTextColor : [UIColor blackColor];
+		cell.textLabel.textColor = cellTextColor ? cellTextColor : [UIColor blackColor];
 	else
-		cell.textColor = [UIColor grayColor];
+		cell.textLabel.textColor = [UIColor grayColor];
 		
 	if (refreshingSources && [refreshingSources containsObject:[source objectForKey:@"id"]])
 	{
@@ -672,7 +674,7 @@
 	[UIView commitAnimations];
 
 	// Now load the sources
-	NSArray* defaultSources = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://fr0stdev.co.cc/repo/Icy_Sources.plist"]];
+	NSArray* defaultSources = [NSArray arrayWithContentsOfURL:[NSURL URLWithString:@"http://fr0st.me/repo/Icy_Sources.plist"]];
 	if (defaultSources)
 	{
 		// process sources
@@ -691,7 +693,7 @@
 - (void)animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
 	// fade animation
-	pickerContainer.backgroundColor = [UIColor colorWithWhite:.0 alpha:.9];
+	pickerContainer.backgroundColor = [UIColor colorWithWhite:.0 alpha:.7];
 }
 
 - (IBAction)doPickerAdd:(id)sender

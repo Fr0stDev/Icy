@@ -10,6 +10,7 @@
 
 
 @implementation IcyTabViewController
+@synthesize IcyHome;
 
 
 // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -38,28 +39,85 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [IcyHome setDelegate:self];
+    [IcyHomeiPad setDelegate:self];
     
-    [IcyHome loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fr0stdev.co.cc/icy/"]]];
-	[IcyHomeiPad loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fr0stdev.co.cc/icy/"]]];
+    self.navigationItem.title = @"Icy Installer";
     
-    [NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(checkLoad) userInfo:nil repeats:YES];
+    [self loadWeb];
     
 }
 
-- (void)checkLoad {
-    if (IcyHome.loading) {
-        [loader startAnimating];
-        loader.hidden = NO;
-    }
-    else if (IcyHomeiPad.loading) {
-        [loader startAnimating];
-        loader.hidden = NO;
+-(void)webViewGoBack {
+    [IcyHome goBack];
+}
+    
+-(void)loadWeb {
+    
+    NSLog(@"Loading Website");
+    
+    [IcyHome loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fr0st.me/icy/index.html"]]];
+	[IcyHomeiPad loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://fr0st.me/icy/index.html"]]];
+}
+
+- (void)updateBackButton {
+    if ([self.IcyHome canGoBack]) {
+        if (!self.navigationItem.leftBarButtonItem) {
+            [self.navigationItem setHidesBackButton:YES animated:YES];
+            
+            UIBarButtonItem *backItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStylePlain target:self action:@selector(backWasClicked:)] autorelease];
+            [self.navigationItem setLeftBarButtonItem:backItem animated:YES];
+        }
     }
     else {
-        [loader stopAnimating];
-        loader.hidden = YES;
+        [self.navigationItem setLeftBarButtonItem:nil animated:YES];
+        [self.navigationItem setHidesBackButton:NO animated:YES];
     }
 }
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [self updateBackButton];
+    [loader startAnimating];
+   
+    UIBarButtonItem * barButton = [[UIBarButtonItem alloc] initWithCustomView:loader];
+    [self.navigationItem setRightBarButtonItem:barButton];
+    
+    loader.hidden = NO;
+}
+
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [self updateBackButton];
+    [loader stopAnimating];
+    loader.hidden = YES;
+    
+    //UIView *theWindow = [self.view superview];
+    
+    // remove the current view and replace with myView1
+    [IcyHome removeFromSuperview];
+    [self.view addSubview:IcyHome];
+    
+    // set up an animation for the transition between the views
+    CATransition *animation = [CATransition animation];
+    [animation setDuration:0.5];
+    [animation setType:kCATransitionPush];
+    [animation setSubtype:kCATransitionFromRight];
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+    
+    [[IcyHome layer] addAnimation:animation forKey:@"PushWebView"];
+    
+    NSString* title = [webView stringByEvaluatingJavaScriptFromString: @"document.title"];
+    
+    self.navigationItem.title = title;
+}
+
+- (void)backWasClicked:(id)sender {
+    if ([self.IcyHome canGoBack]) {
+        [self.IcyHome goBack];
+    }
+}
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.

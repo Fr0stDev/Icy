@@ -151,15 +151,15 @@ static UIImage* gPackageImage = nil;
 	{
 		UITableViewCell* mcell = [tableView dequeueReusableCellWithIdentifier:@"more"];
 		if (mcell == nil) {
-			mcell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"more"] autorelease];
-			mcell.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
-			mcell.text = NSLocalizedString(@"More...", @"");
-			mcell.textAlignment = UITextAlignmentCenter;
-			mcell.textColor = [UIColor colorWithRed:.0 green:.0 blue:.7 alpha:1.];
+			mcell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"more"] autorelease];
+			mcell.textLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+			mcell.textLabel.text = NSLocalizedString(@"More...", @"");
+			mcell.textLabel.textAlignment = NSTextAlignmentCenter;
+			mcell.textLabel.textColor = [UIColor colorWithRed:.0 green:.0 blue:.7 alpha:1.];
 			mcell.accessoryType = UITableViewCellAccessoryNone;
-			mcell.image = nil;
+			mcell.imageView.image = nil;
 
-			((UILabel*)([[mcell.contentView subviews] objectAtIndex:0])).textAlignment = UITextAlignmentCenter;
+			((UILabel*)([[mcell.contentView subviews] objectAtIndex:0])).textAlignment = NSTextAlignmentCenter;
 		 }
 		 
 		 return mcell;
@@ -167,20 +167,20 @@ static UIImage* gPackageImage = nil;
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-		cell.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell.textLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		if (!gPackageImage)
 			gPackageImage = [[UIImage imageWithData:[NSData dataWithContentsOfMappedFile:[[NSBundle mainBundle] pathForResource:@"Package" ofType:@"png"]]] retain];
-		cell.image = gPackageImage;
+		cell.imageView.image = gPackageImage;
 		if (cellTextColor)
-			cell.textColor = cellTextColor;
+			cell.textLabel.textColor = cellTextColor;
 		
 		// prepare the subviews
 		UILabel* categoryLabel = [[UILabel alloc] initWithFrame:CGRectMake(52, 24, 265, 24)];
 		categoryLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
 		categoryLabel.textColor = [UIColor darkGrayColor];
-		categoryLabel.textAlignment = UITextAlignmentLeft;
+		categoryLabel.textAlignment = NSTextAlignmentLeft;
 		categoryLabel.backgroundColor = [UIColor clearColor];
 		
 		[cell.contentView addSubview:categoryLabel];
@@ -196,7 +196,7 @@ static UIImage* gPackageImage = nil;
 	if (cat && [cat isKindOfClass:[UILabel class]])
 		cat.text = [package objectForKey:@"section"];
 	
-	cell.text = [NSString stringWithFormat:@"%@ (%@)", [package objectForKey:@"name"], [package objectForKey:@"version"]];
+	cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [package objectForKey:@"name"], [package objectForKey:@"version"]];
 
     return cell;
 }

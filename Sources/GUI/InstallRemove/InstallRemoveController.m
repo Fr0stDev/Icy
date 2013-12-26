@@ -13,6 +13,8 @@
 #import "Database.h"
 #import "IcyAppDelegate.h"
 
+#import "InstalledController.h"
+
 extern UIImage* _UIImageWithName(NSString* name) WEAK_IMPORT_ATTRIBUTE;
 
 @implementation InstallRemoveController
@@ -32,7 +34,7 @@ extern UIImage* _UIImageWithName(NSString* name) WEAK_IMPORT_ATTRIBUTE;
 		self.view.backgroundColor = [tintColor colorRepresentation];
 	}
 	else
-		self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+		self.view.backgroundColor = [UIColor blackColor];
 	// ~Theme support
 
 	[rootTabBarController retain];
@@ -90,11 +92,18 @@ extern UIImage* _UIImageWithName(NSString* name) WEAK_IMPORT_ATTRIBUTE;
 		if (uic)
 			[uic popToRootViewControllerAnimated:NO];
 	}
-	
-	if ([self.delegate respondsToSelector:@selector(_rebuildInstalledPackages)])
-		[self.delegate performSelector:@selector(_rebuildInstalledPackages)];
+    
+    
+	InstalledController* installedController = [[InstalledController alloc] init];
+    
+	if ([installedController respondsToSelector:@selector(_rebuildInstalledPackages)])
+		[installedController performSelector:@selector(_rebuildInstalledPackages)];
 	
 	[self doFlip:sender];
+    
+    system("uicache"); //reload icon cache
+    
+    [installedController release];
 }
 
 - (IBAction)doFlip:(id)sender

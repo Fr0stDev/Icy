@@ -30,8 +30,9 @@
 	}
 
 	if([self fileExistsAtPath:source isDirectory:&isDirectory]) {
-		NSDictionary * attributes = [self fileAttributesAtPath:source traverseLink:NO];
-
+		//NSDictionary * attributes = [self fileAttributesAtPath:source traverseLink:NO];
+        NSDictionary * attributes = [self attributesOfItemAtPath:source error:nil];;
+        
 		if(isDirectory) {
 			[self createDirectoryAtPath:destination attributes:attributes];
 
@@ -43,7 +44,7 @@
 				NSString * destinationPath = [destination stringByAppendingPathComponent:subpath];
 
 				if([self fileExistsAtPath:sourcePath isDirectory:&isDirectory]) {
-					attributes = [self fileAttributesAtPath:sourcePath traverseLink:NO];
+					attributes = [self attributesOfItemAtPath:sourcePath error:nil];
 					if(isDirectory) { // Directory
 						result = [self createDirectoryAtPath:destinationPath attributes:attributes];
 					} else { // File

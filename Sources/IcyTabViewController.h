@@ -9,12 +9,20 @@
 #import <UIKit/UIKit.h>
 
 
-@interface IcyTabViewController : UIViewController {
+@interface IcyTabViewController : UIViewController <UIWebViewDelegate, UINavigationControllerDelegate> {
 	
 	IBOutlet UIWebView *IcyHome;
 	IBOutlet UIWebView *IcyHomeiPad;
     IBOutlet UIActivityIndicatorView *loader;
+    
+    UIViewController* webViewController;
+    
 
 }
+
+@property(nonatomic, retain) IBOutlet UIWebView *IcyHome;
+    
+- (void)loadWeb;
+- (void)webViewGoBack;
 
 @end

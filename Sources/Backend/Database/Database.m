@@ -31,8 +31,11 @@ static Database* gSharedDatabase = nil;
 			NSLog(@"Database: cannot open the database!");
 
 #if !defined(INSTALLER_APP) && !defined(__i386__)
-		if (![[[[NSFileManager defaultManager] fileAttributesAtPath:aPath traverseLink:YES] fileOwnerAccountName] isEqualToString:@"mobile"])
-			[[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:@"mobile", NSFileOwnerAccountName, @"mobile", NSFileGroupOwnerAccountName, nil]
+		//if (![[[[NSFileManager defaultManager] fileAttributesAtPath:aPath traverseLink:YES] fileOwnerAccountName] isEqualToString:@"mobile"])
+			
+        if (![[[[NSFileManager defaultManager] attributesOfItemAtPath:aPath error:nil] fileOwnerAccountName] isEqualToString:@"mobile"])
+            
+            [[NSFileManager defaultManager] setAttributes:[NSDictionary dictionaryWithObjectsAndKeys:@"mobile", NSFileOwnerAccountName, @"mobile", NSFileGroupOwnerAccountName, nil]
 											ofItemAtPath:aPath error:nil];
 #endif
     }

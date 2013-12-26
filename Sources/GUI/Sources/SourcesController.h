@@ -37,6 +37,7 @@
 - (IBAction)doPickerAddAll:(id)sender;
 - (void)_invokePicker:(id)sender;
 
+- (void)checkSources:(id)sender;
 - (void)reloadSources;
 - (void)_addSource:(NSURL*)url;
 - (void)_removeSource:(NSDictionary*)source;

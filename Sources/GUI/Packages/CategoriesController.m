@@ -26,47 +26,17 @@ static UIImage* gRecentsImage = nil;
 }
 */
 
-
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self setNeedsStatusBarAppearanceUpdate];
 	
-	// Theme support
-	NSString* tintColor = [ICY_APP.themeDefinition objectForKey:@"NavigationBarTintColor_Categories"];
-	if (!tintColor)
-		tintColor = [ICY_APP.themeDefinition objectForKey:@"NavigationBarTintColor"];
-	if (tintColor)
-	{
-		self.navigationController.navigationBar.tintColor = [tintColor colorRepresentation];
-	}
+    
 	
-	tintColor = [ICY_APP.themeDefinition objectForKey:@"TableBackgroundColor_Categories"];
-	if (!tintColor)
-		tintColor = [ICY_APP.themeDefinition objectForKey:@"TableBackgroundColor"];
-	if (tintColor)
-	{
-		self.tableView.backgroundColor = [tintColor colorRepresentation];
-	}
-
-	tintColor = [ICY_APP.themeDefinition objectForKey:@"TableSeparatorColor_Categories"];
-	if (!tintColor)
-		tintColor = [ICY_APP.themeDefinition objectForKey:@"TableSeparatorColor"];
-	if (tintColor)
-	{
-		if (![tintColor length])
-			self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-		self.tableView.separatorColor = [tintColor colorRepresentation];
-	}
-	
-	tintColor = [ICY_APP.themeDefinition objectForKey:@"TableTextColor_Categories"];
-	if (!tintColor)
-		tintColor = [ICY_APP.themeDefinition objectForKey:@"TableTextColor"];
-	if (tintColor)
-		cellTextColor = [[tintColor colorRepresentation] retain];
-	else
-		cellTextColor = nil;
-	// ~Theme support
-
 	categories = [[NSMutableArray alloc] initWithCapacity:0];
 	excludedCategories = [[NSMutableArray alloc] initWithCapacity:0];
 	
@@ -173,11 +143,11 @@ static UIImage* gRecentsImage = nil;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
-		cell.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell.textLabel.font = [UIFont systemFontOfSize:[UIFont buttonFontSize]];
 		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		if (cellTextColor)
-			cell.textColor = cellTextColor;
+			cell.textLabel.textColor = cellTextColor;
 		if (!gCategoriesImage)
 			gCategoriesImage = [[UIImage imageWithData:[NSData dataWithContentsOfMappedFile:[[NSBundle mainBundle] pathForResource:@"Category" ofType:@"png"]]] retain];
 		if (!gRecentsImage)
@@ -202,10 +172,10 @@ static UIImage* gRecentsImage = nil;
 	
 	if (indexPath.row)
 	{
-		cell.text = [categories objectAtIndex:indexPath.row-1];
+		cell.textLabel.text = [categories objectAtIndex:indexPath.row-1];
 		
 		// check whether we have looked up this category
-		NSString* reversedCatName = [[NSBundle mainBundle] localizedStringForKey:cell.text value:cell.text table:@"CategoriesReverse"];
+		NSString* reversedCatName = [[NSBundle mainBundle] localizedStringForKey:cell.textLabel.text value:cell.textLabel.text table:@"CategoriesReverse"];
 		UIImage* catImage = [categoryImages objectForKey:reversedCatName];
 		if (!catImage)
 		{
@@ -226,17 +196,17 @@ static UIImage* gRecentsImage = nil;
 		else if ([catImage isKindOfClass:[NSNull class]])
 			catImage = nil;
 		
-		cell.image = catImage ? catImage : gCategoriesImage;
+		cell.imageView.image = catImage ? catImage : gCategoriesImage;
 		
 		if (editMode)
 		{
-			[((UISwitch*)cell.accessoryView) setOn:![excludedCategories containsObject:cell.text] animated:NO];
+			[((UISwitch*)cell.accessoryView) setOn:![excludedCategories containsObject:cell.textLabel.text] animated:NO];
 		}
 	}
 	else
 	{
-		cell.text = NSLocalizedString(@"Recent Packages", @"");
-		cell.image = gRecentsImage;
+		cell.textLabel.text = NSLocalizedString(@"Recent Packages", @"");
+		cell.imageView.image = gRecentsImage;
 		if (editMode)
 		{
 			[((UISwitch*)cell.accessoryView) setOn:YES animated:NO];

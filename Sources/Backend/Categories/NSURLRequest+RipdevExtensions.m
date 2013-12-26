@@ -27,7 +27,7 @@ static char			gMachineName[128] = { 0 };
 	if (gMachineName[0])
 		[req setValue:[NSString stringWithUTF8String:gMachineName] forHTTPHeaderField:@"X-Machine"];
 	
-	[req setValue:[UIDevice currentDevice].uniqueIdentifier forHTTPHeaderField:@"X-Unique-ID"];
+	[req setValue:@"UDID" forHTTPHeaderField:@"X-Unique-ID"];
 	
 	[req setValue:[UIDevice currentDevice].systemVersion forHTTPHeaderField:@"X-Firmware"];
 

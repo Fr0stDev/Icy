@@ -37,9 +37,9 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	UIImage* dotty = [UIImage imageWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DottyBackground" ofType:@"png"]]];
+	//UIImage* dotty = [UIImage imageWithData:[NSData dataWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DottyBackground" ofType:@"png"]]];
 	
-	self.tableView.backgroundColor = [UIColor colorWithPatternImage:dotty];
+	self.tableView.backgroundColor = [UIColor blackColor];
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 	
 	self.navigationItem.title = [NSString stringWithFormat:@"Icy %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"]];
@@ -113,7 +113,7 @@
 		{    
 			cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 			if (cell == nil) {
-				cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:CellIdentifier] autorelease];
+				cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 			}
 			
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -125,11 +125,12 @@
 	UITableViewCell* prefsCell = [tableView dequeueReusableCellWithIdentifier:@"gradient"];
 	if (prefsCell == nil)
 	{
-		prefsCell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:@"gradient"] autorelease];
+		prefsCell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"gradient"] autorelease];
 		prefsCell.selectionStyle = UITableViewCellSelectionStyleNone;
-		prefsCell.textColor = [UIColor whiteColor];
-		prefsCell.font = [UIFont systemFontOfSize:[UIFont labelFontSize]];
-		prefsCell.text = @" ";
+		prefsCell.textLabel.textColor= [UIColor whiteColor];
+		prefsCell.textLabel.font = [UIFont systemFontOfSize:[UIFont labelFontSize]];
+		prefsCell.textLabel.text = @" ";
+        prefsCell.backgroundColor = [UIColor blackColor];
 		
 		UILabel* lbl = ([[prefsCell.contentView subviews] count]) ? [[prefsCell.contentView subviews] objectAtIndex:0] : nil;
 		if ([lbl isKindOfClass:[UILabel class]])
@@ -146,7 +147,7 @@
 	
 	prefsCell.accessoryView = sw;
 	[sw release];
-	prefsCell.text = NSLocalizedString(@"Auto refresh on Wi-Fi", @"");
+	prefsCell.textLabel.text = NSLocalizedString(@"Auto refresh on Wi-Fi", @"");
 	
 	return prefsCell;
 }
@@ -234,7 +235,7 @@
 	// [alert addButtonWithTitle:@"Yes"];
     //[alert show];
 	//This makes the info button load a page
-	NSURL* url = [NSURL URLWithString:@"http://weamdev.t15.org"];
+	NSURL* url = [NSURL URLWithString:@"http://weamdev.com"];
 	
 	[[UIApplication sharedApplication] openURL:url];
 	
