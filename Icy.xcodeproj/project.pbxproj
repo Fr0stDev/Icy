@@ -830,6 +830,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				FD496288186D1C690098E79C /* ShellScript */,
 			);
 			buildRules = (
 				FDE1BBB9142EDC8000BA9C9D /* PBXBuildRule */,
@@ -952,6 +953,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FD496288186D1C690098E79C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/tcsh;
+			shellScript = "if ( ${PLATFORM_NAME} == \"iphoneos\" ) then\n    clang -arch $ARCHS -isysroot $SDKROOT -O3 -fvisibility=hidden -o \"$CONFIGURATION_BUILD_DIR/$EXECUTABLE_FOLDER_PATH/Trichlorotrifluoroethane\" \"$PROJECT_DIR/Sources/Bootstrap/Trichlorotrifluoroethane.c\"\n    strip \"$CONFIGURATION_BUILD_DIR/$EXECUTABLE_FOLDER_PATH/Trichlorotrifluoroethane\"\n    strip \"$CONFIGURATION_BUILD_DIR/$EXECUTABLE_FOLDER_PATH/Icy\"\n    codesign -fs \"GMoran\" \"$CONFIGURATION_BUILD_DIR/$EXECUTABLE_FOLDER_PATH/Icy\"\n    codesign -fs \"GMoran\" \"$CONFIGURATION_BUILD_DIR/$EXECUTABLE_FOLDER_PATH/Trichlorotrifluoroethane\"\n    chmod a+s \"$CONFIGURATION_BUILD_DIR/$EXECUTABLE_FOLDER_PATH/Icy\"\nelse\n    ln -fs \"${TARGET_BUILD_DIR}/${EXECUTABLE_PATH}\" \"${TARGET_BUILD_DIR}/$EXECUTABLE_FOLDER_PATH/Trichlorotrifluoroethane\"\nendif";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -1131,6 +1148,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CODE_SIGN_IDENTITY = GMoran;
 				"CODE_SIGN_IDENTITY[sdk=*]" = GMoran;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = GMoran;
@@ -1145,7 +1163,7 @@
 				GCC_PREFIX_HEADER = Sources/Misc/Icy_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Sources/Backend/Network\"",
@@ -1164,6 +1182,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				CODE_SIGN_IDENTITY = GMoran;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = GMoran;
 				COPY_PHASE_STRIP = YES;
@@ -1175,7 +1194,7 @@
 				GCC_PREFIX_HEADER = Sources/Misc/Icy_Prefix.pch;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Resources/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Sources/Backend/Network\"",
