@@ -1,31 +1,28 @@
-##Icy Installer by WeAmDev
+## Icy Installer by WeAmDev
 
 This is Icy, the one and only. Originally written by RipDev and picked up by WeAmDev afterwards. 
 
 Icy was the best alternative to Cydia in it's time, but has long been rendered obsolete as new versions of iOS are being released, and Cydia being continuously updated by Jay Freeman (@saurik).
 
-This project is now dead, I no longer have time on my hands to maintain it. I think it is time for Icy Installer to finally die. Here is my reasoning:
+### This project is now dead, I no longer have time on my hands to maintain it. I think it is time for Icy Installer to finally die. Here is my reasoning:
 
-- It has stopped working on iOS 5.1+ (This needs fixing, works on iOS 7 though?)
-- The introduction of the Cydia Store (which Icy does not support)
+* It has stopped working on iOS 5.1+ (This needs fixing, works on iOS 7 though?)
+* The introduction of the Cydia Store (which Icy does not support)
 
-##iOS 7
+## iOS 7
 
 Yes. This supports iOS 7. You’re welcome.
 
-- With Love, fr0st
-
-
-##Compiling Icy Installer
+## Compiling Icy Installer
 
 You must set the correct permissions on Icy’s executable:
 
-> chmod 4755 /Applications/Icy.app/Icy
-> chown root:wheel /Applications/Icy.app/Icy
-> chmod 755 /Applications/Icy.app/Trichlorotrifluoroethane
+* chmod 4755 /Applications/Icy.app/Icy
+* chown root:wheel /Applications/Icy.app/Icy
+* chmod 755 /Applications/Icy.app/Trichlorotrifluoroethane
 
 
-##Licensing
+## Licensing
 The MIT License
 
 Copyright © 2009 Ripdev
@@ -49,24 +46,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
-##Credits
+## Credits
 
 The following people:
 
-- Guillermo Moran (@fr0st) for maintaining the project
-- Max Shav (@_mxms) for his major contributions on Icy 2.0
-- Ben King (@sosumeh) for being completely useless
+* Guillermo Moran (@fr0st) for maintaining the project
+* Max Shav (@_mxms) for his major contributions on Icy 2.0
+* Ben King (@sosumeh) for being completely useless
 
 
 The following RipDev members for the original Icy: 
 
-- Slava "slavikus" Karpenko
-- Cyril Murzin
+* Slava "slavikus" Karpenko
+* Cyril Murzin
 
 The following iPhone Dev Team Members:
 
-- Alexander "wizdaz" Maksimenko
-- Ilya "gray" Popovyan
+* Alexander "wizdaz" Maksimenko
+* Ilya "gray" Popovyan
 
 
 
